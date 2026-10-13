@@ -1,0 +1,56 @@
+@model Attendance
+@{
+    ViewData["Title"] = "Record Attendance";
+}
+
+<h2>Record Attendance</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="EmployeeId">Employee</label>
+        <select asp-for="EmployeeId">
+            <option value="">-- Select Employee --</option>
+            @foreach (var emp in (List<Employee>)ViewBag.Employees)
+            {
+                <option value="@emp.EmployeeId">@emp.FirstName @emp.LastName (@emp.EmployeeNumber)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="AttendanceDate">Date</label>
+        <input asp-for="AttendanceDate" type="date" />
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" asp-for="IsAbsent" id="absentCheckbox" style="width:auto; display:inline-block;" />
+            Mark as Absent
+        </label>
+    </div>
+    <div id="timeFields">
+        <div class="form-group">
+            <label asp-for="TimeIn">Time In</label>
+            <input asp-for="TimeIn" type="time" />
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeOut">Time Out</label>
+            <input asp-for="TimeOut" type="time" />
+        </div>
+    </div>
+
+    <button type="submit">Save</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>
+
+@section Scripts {
+    <script>
+        const absentCheckbox = document.getElementById('absentCheckbox');
+        const timeFields = document.getElementById('timeFields');
+
+        function toggleTimeFields() {
+            timeFields.style.display = absentCheckbox.checked ? 'none' : 'block';
+        }
+
+        absentCheckbox.addEventListener('change', toggleTimeFields);
+        toggleTimeFields();
+    </script>
+}

@@ -1,0 +1,27 @@
+@model Deduction
+@{
+    ViewData["Title"] = "Add Deduction Type";
+}
+
+<h2>Add Deduction Type</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="DeductionName">Name</label>
+        <input asp-for="DeductionName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="DeductionType">Type</label>
+        <select asp-for="DeductionType">
+            <option value="Fixed">Fixed</option>
+            <option value="Percentage">Percentage</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" type="number" step="0.01" />
+    </div>
+
+    <button type="submit">Save</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>

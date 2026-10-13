@@ -1,0 +1,42 @@
+@model Salary
+@{
+    ViewData["Title"] = "Assign Salary";
+}
+
+<h2>Assign Salary</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="error-banner">@ViewBag.Error</div>
+}
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="EmployeeId">Employee</label>
+        <select asp-for="EmployeeId">
+            <option value="">-- Select Employee --</option>
+            @foreach (var emp in (List<Employee>)ViewBag.Employees)
+            {
+                <option value="@emp.EmployeeId">@emp.FirstName @emp.LastName (@emp.EmployeeNumber)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="BasicSalary"></label>
+        <input asp-for="BasicSalary" type="number" step="0.01" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PayFrequency"></label>
+        <select asp-for="PayFrequency">
+            <option value="Monthly">Monthly</option>
+            <option value="Biweekly">Biweekly</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="EffectiveDate"></label>
+        <input asp-for="EffectiveDate" type="date" />
+    </div>
+
+    <button type="submit">Save</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>

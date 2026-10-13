@@ -1,0 +1,27 @@
+@model Employee
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<h2>Employee Details</h2>
+
+<table>
+    <tbody>
+        <tr><th>Employee No.</th><td>@Model.EmployeeNumber</td></tr>
+        <tr><th>Full Name</th><td>@Model.FirstName @Model.MiddleName @Model.LastName</td></tr>
+        <tr><th>Gender</th><td>@Model.Gender</td></tr>
+        <tr><th>Birth Date</th><td>@Model.BirthDate?.ToString("MMMM d, yyyy")</td></tr>
+        <tr><th>Position</th><td>@Model.Position</td></tr>
+        <tr><th>Department</th><td>@Model.Department</td></tr>
+        <tr><th>Date Hired</th><td>@Model.DateHired?.ToString("MMMM d, yyyy")</td></tr>
+        <tr><th>Contact Number</th><td>@Model.ContactNumber</td></tr>
+        <tr><th>Address</th><td>@Model.Address</td></tr>
+        <tr><th>Email</th><td>@Model.Email</td></tr>
+        <tr><th>Status</th><td>@Model.Status</td></tr>
+        <tr><th>Basic Salary</th><td>₱@(((decimal)ViewBag.BasicSalary).ToString("N2"))</td></tr>
+        <tr><th>Total Payrolls</th><td>@ViewBag.TotalPayrolls</td></tr>
+    </tbody>
+</table>
+
+<a class="btn" asp-action="Edit" asp-route-id="@Model.EmployeeId">Edit</a>
+<a class="btn btn-secondary" asp-action="Index">Back to List</a>

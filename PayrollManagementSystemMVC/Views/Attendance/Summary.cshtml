@@ -1,0 +1,49 @@
+@model List<Attendance>
+@{
+    ViewData["Title"] = "Attendance Summary";
+}
+
+<h2>Attendance Summary — @ViewBag.EmployeeName</h2>
+
+<table>
+    <tbody>
+        <tr><th>Total Days Worked</th><td>@ViewBag.TotalDaysWorked</td></tr>
+        <tr><th>Total Absences</th><td>@ViewBag.TotalAbsences</td></tr>
+        <tr><th>Total Late Hours</th><td>@(((decimal)ViewBag.TotalLateHours).ToString("N2"))</td></tr>
+        <tr><th>Total Undertime Hours</th><td>@(((decimal)ViewBag.TotalUndertimeHours).ToString("N2"))</td></tr>
+        <tr><th>Total Overtime Hours</th><td>@(((decimal)ViewBag.TotalOvertimeHours).ToString("N2"))</td></tr>
+    </tbody>
+</table>
+
+<h3>Detailed Records</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+            <th>Hours Worked</th>
+            <th>Late Hrs</th>
+            <th>Undertime Hrs</th>
+            <th>Overtime Hrs</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.AttendanceDate.ToString("MM/dd/yyyy")</td>
+                <td>@(a.TimeIn.HasValue ? a.TimeIn.Value.ToString(@"hh\:mm") : "—")</td>
+                <td>@(a.TimeOut.HasValue ? a.TimeOut.Value.ToString(@"hh\:mm") : "—")</td>
+                <td>@(a.HoursWorked.HasValue ? a.HoursWorked.Value.ToString("N2") : "0.00")</td>
+                <td>@a.LateHours.ToString("N2")</td>
+                <td>@a.UndertimeHours.ToString("N2")</td>
+                <td>@a.OvertimeHours.ToString("N2")</td>
+                <td>@a.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-secondary" asp-action="Index">Back to Attendance</a>

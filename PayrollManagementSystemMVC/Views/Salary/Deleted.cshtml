@@ -1,0 +1,34 @@
+@model List<Salary>
+@{
+    ViewData["Title"] = "Deleted Salary Records";
+}
+
+<h2>Deleted Salary Records</h2>
+
+<a class="btn btn-secondary" asp-action="History" asp-route-employeeId="@ViewBag.EmployeeId">Back to History</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Basic Salary</th>
+            <th>Pay Frequency</th>
+            <th>Effective Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.EmployeeName</td>
+                <td>₱@s.BasicSalary.ToString("N2")</td>
+                <td>@s.PayFrequency</td>
+                <td>@s.EffectiveDate.ToString("MMMM d, yyyy")</td>
+                <td class="action-links">
+                    <a asp-action="Restore" asp-route-id="@s.SalaryId" asp-route-employeeId="@s.EmployeeId">Restore</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

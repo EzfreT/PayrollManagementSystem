@@ -1,0 +1,30 @@
+@model Payroll
+@{
+    ViewData["Title"] = "Payroll Details";
+}
+
+<h2>Payroll Details</h2>
+
+<table>
+    <tbody>
+    <tr><th>Employee</th><td>@Model.EmployeeName</td></tr>
+    <tr><th>Pay Period</th><td>@Model.PayPeriodStart.ToString("MMMM d, yyyy") - @Model.PayPeriodEnd.ToString("MMMM d, yyyy")</td></tr>
+    <tr><th>Days Worked</th><td>@Model.DaysWorked</td></tr>
+    <tr><th>Absences</th><td>@Model.Absences</td></tr>
+    <tr><th>Overtime Hours</th><td>@Model.OvertimeHours.ToString("N2")</td></tr>
+    <tr><th>Late/Undertime Hours</th><td>@Model.LateUndertimeHours.ToString("N2")</td></tr>
+    <tr><th>Gross Pay</th><td>₱@Model.GrossPay.ToString("N2")</td></tr>
+    <tr><th>Total Deductions</th><td>₱@Model.TotalDeductions.ToString("N2")</td></tr>
+    <tr><th>Net Pay</th><td><strong>₱@Model.NetPay.ToString("N2")</strong></td></tr>
+    <tr><th>Status</th><td>@Model.Status</td></tr>
+    <tr><th>Processed On</th><td>@Model.CreatedAt.ToString("MMMM d, yyyy h:mm tt")</td></tr>
+    </tbody>
+</table>
+
+@if (Model.Status == "Pending")
+{
+    <a class="btn" asp-action="Approve" asp-route-id="@Model.PayrollId">Approve</a>
+    <a class="btn btn-danger" asp-action="Reject" asp-route-id="@Model.PayrollId">Reject</a>
+}
+
+<a class="btn btn-secondary" asp-action="Index">Back to Payroll List</a>

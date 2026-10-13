@@ -1,0 +1,32 @@
+@model List<Salary>
+@{
+    ViewData["Title"] = "Salary";
+}
+
+<a class="btn" asp-action="Create">+ Assign Salary</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Basic Salary</th>
+            <th>Pay Frequency</th>
+            <th>Effective Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.EmployeeName</td>
+                <td>₱@s.BasicSalary.ToString("N2")</td>
+                <td>@s.PayFrequency</td>
+                <td>@s.EffectiveDate.ToString("MMMM d, yyyy")</td>
+                <td class="action-links">
+                    <a asp-action="History" asp-route-employeeId="@s.EmployeeId">View History</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

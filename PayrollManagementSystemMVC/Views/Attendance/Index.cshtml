@@ -1,0 +1,42 @@
+@model List<Attendance>
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<a class="btn" asp-action="Create">+ Record Attendance</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+            <th>Hours Worked</th>
+            <th>Late Hrs</th>
+            <th>Undertime Hrs</th>
+            <th>Overtime Hrs</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.EmployeeName</td>
+                <td>@a.AttendanceDate.ToString("MM/dd/yyyy")</td>
+                <td>@(a.TimeIn.HasValue ? a.TimeIn.Value.ToString(@"hh\:mm") : "—")</td>
+                <td>@(a.TimeOut.HasValue ? a.TimeOut.Value.ToString(@"hh\:mm") : "—")</td>
+                <td>@(a.HoursWorked.HasValue ? a.HoursWorked.Value.ToString("N2") : "0.00")</td>
+                <td>@a.LateHours.ToString("N2")</td>
+                <td>@a.UndertimeHours.ToString("N2")</td>
+                <td>@a.OvertimeHours.ToString("N2")</td>
+                <td>@a.Status</td>
+                <td class="action-links">
+                    <a asp-action="Summary" asp-route-employeeId="@a.EmployeeId">View Summary</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

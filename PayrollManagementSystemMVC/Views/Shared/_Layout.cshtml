@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Payroll Management System</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">💼</span>
+            <span class="brand-text">Payroll System</span>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">A</div>
+            <div>
+                <div class="user-welcome">Welcome,</div>
+                <div class="user-name">Admin</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a asp-controller="Home" asp-action="Index"><span class="nav-icon">🏠</span> Dashboard</a>
+            <a asp-controller="Employee" asp-action="Index"><span class="nav-icon">👥</span> Employees</a>
+            <a asp-controller="Salary" asp-action="Index"><span class="nav-icon">💵</span> Salary</a>
+            <a asp-controller="Attendance" asp-action="Index"><span class="nav-icon">🕒</span> Attendance</a>
+            <a asp-controller="Deduction" asp-action="Index"><span class="nav-icon">➖</span> Deductions</a>
+            <a asp-controller="Payroll" asp-action="Index"><span class="nav-icon">🧾</span> Payroll</a>
+        </nav>
+    </aside>
+    <div class="main-area">
+        <header class="topbar">
+            <h1>@ViewData["Title"]</h1>
+        </header>
+        <main class="content">
+            @RenderBody()
+        </main>
+        <footer class="footer">
+            &copy; 2026 - Payroll Management System
+        </footer>
+    </div>
+</div>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,39 @@
+@model List<Salary>
+@{
+    ViewData["Title"] = "Salary History";
+}
+
+<h2>Salary History — @ViewBag.EmployeeName</h2>
+
+<a class="btn btn-secondary" asp-action="Index">Back to Current Salaries</a>
+<a class="btn" asp-action="Deleted" asp-route-employeeId="@ViewBag.EmployeeId">View Deleted Records</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Previous Salary</th>
+            <th>New Salary</th>
+            <th>Effective Date</th>
+            <th>Pay Frequency</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.EmployeeName</td>
+                <td>@(s.PreviousSalary.HasValue ? "₱" + s.PreviousSalary.Value.ToString("N2") : "—")</td>
+                <td>₱@s.BasicSalary.ToString("N2")</td>
+                <td>@s.EffectiveDate.ToString("MMMM d, yyyy")</td>
+                <td>@s.PayFrequency</td>
+                <td class="action-links">
+                    <a asp-action="Edit" asp-route-id="@s.SalaryId">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@s.SalaryId" asp-route-employeeId="@s.EmployeeId"
+                       onclick="return confirm('Delete this salary record?');">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "Assign Deduction";
+}
+
+<h2>Assign Deduction to Employee</h2>
+
+<form asp-action="Assign" method="post">
+    <div class="form-group">
+        <label for="employeeId">Employee</label>
+        <select name="employeeId" id="employeeId">
+            <option value="">-- Select Employee --</option>
+            @foreach (var emp in (List<Employee>)ViewBag.Employees)
+            {
+                <option value="@emp.EmployeeId">@emp.FirstName @emp.LastName (@emp.EmployeeNumber)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="deductionId">Deduction</label>
+        <select name="deductionId" id="deductionId">
+            <option value="">-- Select Deduction --</option>
+            @foreach (var d in (List<Deduction>)ViewBag.Deductions)
+            {
+                <option value="@d.DeductionId">@d.DeductionName (@d.DeductionType)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="customAmount">Custom Amount (optional — overrides default)</label>
+        <input type="number" step="0.01" name="customAmount" id="customAmount" />
+    </div>
+
+    <button type="submit">Assign</button>
+    <a class="btn btn-secondary" asp-action="Assignments">Cancel</a>
+</form>

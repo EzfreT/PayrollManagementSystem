@@ -1,0 +1,31 @@
+@model List<Deduction>
+@{
+    ViewData["Title"] = "Deduction Types";
+}
+
+<a class="btn" asp-action="Create">+ Add Deduction Type</a>
+<a class="btn btn-secondary" asp-action="Assignments">View Assignments</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.DeductionName</td>
+                <td>@d.DeductionType</td>
+                <td>@(d.DeductionType == "Percentage" ? d.Amount + "%" : "₱" + d.Amount.ToString("N2"))</td>
+                <td class="action-links">
+                    <a asp-action="Delete" asp-route-id="@d.DeductionId" onclick="return confirm('Delete this deduction type?');">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

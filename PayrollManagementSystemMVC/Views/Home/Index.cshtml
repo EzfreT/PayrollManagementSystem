@@ -1,0 +1,90 @@
+@using PayrollManagementSystemMVC.Models
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="db-status"><strong>@ViewBag.DbStatus</strong></div>
+
+@if (ViewBag.DbError != true)
+{
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-label">Total Employees</div>
+            <div class="kpi-value">@ViewBag.TotalEmployees</div>
+            <div class="kpi-sub">@ViewBag.ActiveEmployees active · @ViewBag.InactiveEmployees inactive</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Total Payrolls</div>
+            <div class="kpi-value">@ViewBag.TotalPayrolls</div>
+            <div class="kpi-sub">@ViewBag.PendingPayrolls pending approval</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Net Pay Disbursed</div>
+            <div class="kpi-value">₱@(((decimal)ViewBag.NetPayDisbursed).ToString("N2"))</div>
+            <div class="kpi-sub">Approved payrolls only</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Today's Attendance</div>
+            <div class="kpi-value">@ViewBag.TodayPresent present</div>
+            <div class="kpi-sub">@ViewBag.TodayAbsent absent today</div>
+        </div>
+    </div>
+
+    <div class="dashboard-panels">
+        <div class="panel">
+            <h3>Recent Payroll Runs</h3>
+            @{
+                var recentPayrolls = (List<Payroll>)ViewBag.RecentPayrolls;
+            }
+            @if (recentPayrolls.Count == 0)
+            {
+                <p>No payroll has been processed yet.</p>
+            }
+            else
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Pay Period</th>
+                            <th>Net Pay</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var p in recentPayrolls)
+                        {
+                            <tr>
+                                <td>@p.EmployeeName</td>
+                                <td>@p.PayPeriodStart.ToString("MMM d") - @p.PayPeriodEnd.ToString("MMM d, yyyy")</td>
+                                <td>₱@p.NetPay.ToString("N2")</td>
+                                <td>@p.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="panel">
+            <h3>Needs Attention</h3>
+            @{
+                var missingSalary = (List<Employee>)ViewBag.EmployeesMissingSalary;
+            }
+            @if (missingSalary.Count == 0)
+            {
+                <p>All active employees have a salary assigned. 🎉</p>
+            }
+            else
+            {
+                <p>These active employees have no salary assigned yet, so payroll can't be run for them:</p>
+                <ul>
+                    @foreach (var emp in missingSalary)
+                    {
+                        <li>@emp.FirstName @emp.LastName (@emp.EmployeeNumber)</li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+}

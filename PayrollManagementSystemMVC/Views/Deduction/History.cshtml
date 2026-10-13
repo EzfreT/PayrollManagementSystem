@@ -1,0 +1,34 @@
+@model List<DeductionAssignmentHistory>
+@{
+    ViewData["Title"] = "Deduction Assignment History";
+    var assignment = (EmployeeDeduction?)ViewBag.Assignment;
+}
+
+<h2>Assignment History</h2>
+
+@if (assignment != null)
+{
+    <p><strong>Employee:</strong> @assignment.EmployeeName &nbsp; <strong>Deduction:</strong> @assignment.DeductionName</p>
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>Custom Amount</th>
+            <th>Changed At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var h in Model)
+        {
+            <tr>
+                <td>@h.Action</td>
+                <td>@(h.CustomAmount.HasValue ? "₱" + h.CustomAmount.Value.ToString("N2") : "—")</td>
+                <td>@h.ChangedAt.ToString("MMMM d, yyyy h:mm tt")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a class="btn btn-secondary" asp-action="Assignments">Back to Assignments</a>

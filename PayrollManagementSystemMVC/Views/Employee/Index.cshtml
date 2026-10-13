@@ -1,0 +1,51 @@
+@model List<Employee>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="search-bar">
+    <form method="get" asp-action="Index" style="display:flex; gap:8px;">
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Search by name or employee no..." />
+        <button type="submit">Search</button>
+    </form>
+    <a class="btn" asp-action="Create">+ Add Employee</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee No.</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.EmployeeNumber</td>
+                <td>@emp.FirstName @emp.MiddleName @emp.LastName</td>
+                <td>@emp.Position</td>
+                <td>@emp.Department</td>
+                <td>
+                    <span class="status-badge @(emp.Status == "Active" ? "status-active" : "status-inactive")">@emp.Status</span>
+                </td>
+                <td class="action-links">
+                    <a asp-action="Details" asp-route-id="@emp.EmployeeId">View</a>
+                    <a asp-action="Edit" asp-route-id="@emp.EmployeeId">Edit</a>
+                    @if (emp.Status == "Active")
+                    {
+                        <a asp-action="Deactivate" asp-route-id="@emp.EmployeeId">Deactivate</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Reactivate" asp-route-id="@emp.EmployeeId">Reactivate</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

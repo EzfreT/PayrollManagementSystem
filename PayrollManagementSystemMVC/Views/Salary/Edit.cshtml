@@ -1,0 +1,39 @@
+@model Salary
+@{
+    ViewData["Title"] = "Edit Salary";
+}
+
+<h2>Edit Salary Record</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="error-banner">@ViewBag.Error</div>
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="SalaryId" />
+    <input type="hidden" asp-for="EmployeeId" />
+
+    <div class="form-group">
+        <label>Employee</label>
+        <input type="text" value="@Model.EmployeeName" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="BasicSalary"></label>
+        <input asp-for="BasicSalary" type="number" step="0.01" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PayFrequency"></label>
+        <select asp-for="PayFrequency">
+            <option value="Monthly">Monthly</option>
+            <option value="Biweekly">Biweekly</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="EffectiveDate"></label>
+        <input asp-for="EffectiveDate" type="date" value="@Model.EffectiveDate.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <button type="submit">Update</button>
+    <a class="btn btn-secondary" asp-action="History" asp-route-employeeId="@Model.EmployeeId">Cancel</a>
+</form>

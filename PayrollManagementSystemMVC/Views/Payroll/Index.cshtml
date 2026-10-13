@@ -1,0 +1,36 @@
+@model List<Payroll>
+@{
+    ViewData["Title"] = "Payroll";
+}
+
+<a class="btn" asp-action="Create">+ Run Payroll</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Employee</th>
+        <th>Pay Period</th>
+        <th>Gross Pay</th>
+        <th>Deductions</th>
+        <th>Net Pay</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.EmployeeName</td>
+            <td>@p.PayPeriodStart.ToString("MMM d") - @p.PayPeriodEnd.ToString("MMM d, yyyy")</td>
+            <td>₱@p.GrossPay.ToString("N2")</td>
+            <td>₱@p.TotalDeductions.ToString("N2")</td>
+            <td>₱@p.NetPay.ToString("N2")</td>
+            <td>@p.Status</td>
+            <td class="action-links">
+                <a asp-action="Details" asp-route-id="@p.PayrollId">View</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

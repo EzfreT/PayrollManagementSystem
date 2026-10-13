@@ -1,0 +1,47 @@
+@model List<EmployeeDeduction>
+@{
+    ViewData["Title"] = "Deduction Assignments";
+}
+
+<a class="btn" asp-action="Assign">+ Assign Deduction</a>
+<a class="btn btn-secondary" asp-action="Index">Back to Deduction Types</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Deduction</th>
+            <th>Type</th>
+            <th>Custom Amount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.EmployeeName</td>
+                <td>@a.DeductionName</td>
+                <td>@a.DeductionType</td>
+                <td>@(a.CustomAmount.HasValue ? "₱" + a.CustomAmount.Value.ToString("N2") : "—")</td>
+                <td>
+                    <span class="status-badge @(a.IsActive ? "status-active" : "status-inactive")">@(a.IsActive ? "Active" : "Inactive")</span>
+                </td>
+                <td class="action-links">
+                    <a asp-action="Computed" asp-route-employeeId="@a.EmployeeId">Computed</a>
+                    <a asp-action="Edit" asp-route-id="@a.Id">Edit</a>
+                    <a asp-action="History" asp-route-id="@a.Id">History</a>
+                    @if (a.IsActive)
+                    {
+                        <a asp-action="Deactivate" asp-route-id="@a.Id">Deactivate</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Reactivate" asp-route-id="@a.Id">Reactivate</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,15 @@
+@model Employee
+@{
+    ViewData["Title"] = "Deactivate Employee";
+}
+
+<h2>Deactivate Employee</h2>
+
+<p>Are you sure you want to deactivate <strong>@Model.FirstName @Model.LastName</strong> (@Model.EmployeeNumber)?</p>
+<p>Their records will be preserved — this does not delete attendance, salary, or deduction history.</p>
+
+<form asp-action="Deactivate" method="post">
+    <input type="hidden" asp-for="EmployeeId" />
+    <button type="submit" class="btn-danger">Confirm Deactivate</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>

@@ -1,0 +1,20 @@
+@model EmployeeDeduction
+@{
+    ViewData["Title"] = "Edit Deduction Assignment";
+}
+
+<h2>Edit Deduction Assignment</h2>
+
+<p><strong>Employee:</strong> @Model.EmployeeName</p>
+<p><strong>Deduction:</strong> @Model.DeductionName (@Model.DeductionType, default @(Model.DeductionType == "Percentage" ? Model.Amount + "%" : "₱" + Model.Amount.ToString("N2")))</p>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="form-group">
+        <label for="customAmount">Custom Amount (leave blank to use default)</label>
+        <input type="number" step="0.01" name="customAmount" id="customAmount" value="@Model.CustomAmount" />
+    </div>
+
+    <button type="submit">Save</button>
+    <a class="btn btn-secondary" asp-action="Assignments">Cancel</a>
+</form>

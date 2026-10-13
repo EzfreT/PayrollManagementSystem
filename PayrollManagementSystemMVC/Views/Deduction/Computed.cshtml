@@ -1,0 +1,31 @@
+@model List<EmployeeDeduction>
+@{
+    ViewData["Title"] = "Computed Deductions";
+}
+
+<h2>Computed Deductions — @ViewBag.EmployeeName</h2>
+<p><strong>Basic Salary:</strong> ₱@(((decimal)ViewBag.BasicSalary).ToString("N2"))</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Deduction</th>
+            <th>Type</th>
+            <th>Computed Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model)
+        {
+            <tr>
+                <td>@d.DeductionName</td>
+                <td>@d.DeductionType</td>
+                <td>₱@d.ComputedAmount.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p><strong>Total Deductions:</strong> ₱@(((decimal)ViewBag.Total).ToString("N2"))</p>
+
+<a class="btn btn-secondary" asp-action="Assignments">Back to Assignments</a>
