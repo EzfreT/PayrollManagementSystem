@@ -1,15 +1,18 @@
+# --- Build stage ---
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY PayrollManagementSystemMVC/PayrollManagementSystemMVC.csproj PayrollManagementSystemMVC/
+COPY PayrollManagementSystemMVC/PayrollManagementSystemMVC/PayrollManagementSystemMVC.csproj PayrollManagementSystemMVC/
 RUN dotnet restore PayrollManagementSystemMVC/PayrollManagementSystemMVC.csproj
 
-COPY PayrollManagementSystemMVC/ PayrollManagementSystemMVC/
+COPY PayrollManagementSystemMVC/PayrollManagementSystemMVC/ PayrollManagementSystemMVC/
 WORKDIR /src/PayrollManagementSystemMVC
 RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
+# --- Runtime stage ---
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
-ENTRYPOINT ["sh", "-c", "ASPNETCORE_URLS=http://+:${PORT:-8080} dotnet PayrollManagementSystemMVC.dll"]
+# Railway assigns a random $PORT at runtime; Kestrel must bind to it.
+CMD ASPNETCORE_URLS=http://+:$PORT dotnet PayrollManagementSystemMVC.dll
