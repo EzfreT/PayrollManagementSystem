@@ -1,19 +1,27 @@
-using MySqlConnector;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace PayrollManagementSystemMVC.Models.Database
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
 {
-    public class DbConnection
-    {
-        private static string Server => Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
-        private static string Database => Environment.GetEnvironmentVariable("DB_NAME") ?? "payroll_db";
-        private static string User => Environment.GetEnvironmentVariable("DB_USER") ?? "root";
-        private static string Password => Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "admin123";
-        private static string Port => Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
-
-        public static MySqlConnection GetConnection()
-        {
-            string connString = $"Server={Server};Port={Port};Database={Database};User={User};Password={Password};";
-            return new MySqlConnection(connString);
-        }
-    }
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+// No app.UseHttpsRedirection() here: when running behind Railway (or any reverse
+// proxy that already terminates HTTPS for us), forcing an internal redirect can
+// create an infinite redirect loop. Railway's edge already serves https:// to the
+// browser, so this app only needs to speak plain http internally.
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
